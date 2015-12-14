@@ -59,13 +59,60 @@ body,html {
     left: 0;
 }
 #captureCanvas {
-    transform: scale(0.25, 0.25);
-    transform-origin: 95% 95%;
+    z-index: 3;
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 600px;
+    height: 600px;
+    zoom: 1;
+}
+#captureCanvas2 {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 100px;
+    width: 600px;
+    height: 600px;
+    zoom: 1;
+    opacity: 0.5;
+}
+
+#captureMask, #captureMask.left {
     z-index: 3;
     position: absolute;
     top: 0;
     left: 100px;
-    border-radius: 300px;
+    width: 300px;
+    height: 600px;
+    zoom: 1;
+    overflow: hidden;
+}
+
+#captureMask.right {
+    left: 400px;
+    width: 300px;
+    height: 600px;
+}
+
+#captureMask.right #captureCanvas {
+    left: -300px;
+}
+
+
+#captureMask.top {
+    left: 100px;
+    width: 600px;
+    height: 300px;
+}
+
+
+#captureMask.bottom {
+    left: 100px;
+    width: 600px;
+    height: 300px;
+    margin-top: -300px;
+    top: 300px;
 }
 
 .bigface {

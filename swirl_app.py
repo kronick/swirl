@@ -192,7 +192,7 @@ def get_image(id):
     ''' Serve the image file for this event based on its id '''
     event = request.cookies.get('event') or config.COOKIES['event']
 
-    directory = os.path.join(config.FILESYSTEM_BASE, event, "uploads")
+    directory = os.path.join(config.FILESYSTEM_BASE, "events", event, "uploads")
     filename =  "{}.jpg".format(id)
     
     return send_from_directory(directory, filename)

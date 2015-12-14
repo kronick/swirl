@@ -203,6 +203,17 @@ states = {
             
             fadezoomspinIn("#captureView", 1000);
             startVideoPreview("captureCanvas");
+            //startVideoPreview("captureCanvas2");
+            $("#captureCanvas2").css("opacity", 0.25);
+            
+            // Choose a random split screen view
+            $("#captureMask").removeClass("top bottom left right");
+            //var classes = ["top", "left", "bottom", "right"];
+            var classes = ["left","right","left","right"];
+            var r = Math.floor(Math.random() * 4);
+            $("#captureMask").addClass(classes[r]);
+
+            
             //$("#captureCanvas").css("opacity", 0.8);
             window.setTimeout(function() {
                 triggerFlash();
@@ -227,6 +238,7 @@ states = {
         },
         exit: function(next, complete) {
             fadezoomspinOut("#captureView", 1000);
+            stopVideoPreview("captureCanvas");
             window.setTimeout(complete, 1000);
         }
     },
@@ -467,10 +479,15 @@ function startVideoPreview(canvasID, drawBox) {
     _videoPreviewDrawBox = drawBox;
     _previewVideo = document.getElementById('videoPreview');
     _previewCanvas = document.getElementById(canvasID);
+    _previewCanvas2 = document.getElementById($(_previewCanvas).attr("id") + "2");
     _previewContext = _previewCanvas.getContext('2d');
 
     _previewCanvas.width = 400;
     _previewCanvas.height = 400;
+    if(_previewCanvas2) {
+        _previewCanvas2.width = 400;
+        _previewCanvas2.height = 400;        
+    }
 
     _previewVideo_w = $("#videoPreview").width();
     _previewVideo_h = $("#videoPreview").height();
@@ -491,15 +508,17 @@ function stopVideoPreview(canvasID) {
 }
 
 function getVideoPreviewFrame() {
+    if(!_videoPreviewRunning) return;
+    
     _previewContext.save()
     _previewContext.scale(-1, 1);
     _previewContext.translate(-_previewCanvas.width, 0)
-    if(_videoPreviewRunning) {
-        if(_previewVideo_w > _previewVideo_h)
-            _previewContext.drawImage(_previewVideo,(_previewCanvas.width - _previewVideoScale*_previewVideo_w) / 2,0,_previewVideo_w * _previewVideoScale,_previewCanvas.height);
-        else
-            _previewContext.drawImage(_previewVideo,0,(_previewCanvas.height - _previewVideoScale*_previewVideo_h) / 2,_previewCanvas.width, _previewVideo_h * _previewVideoScale);
-    }
+
+    if(_previewVideo_w > _previewVideo_h)
+        _previewContext.drawImage(_previewVideo,(_previewCanvas.width - _previewVideoScale*_previewVideo_w) / 2,0,_previewVideo_w * _previewVideoScale,_previewCanvas.height);
+    else
+        _previewContext.drawImage(_previewVideo,0,(_previewCanvas.height - _previewVideoScale*_previewVideo_h) / 2,_previewCanvas.width, _previewVideo_h * _previewVideoScale);
+
     _previewContext.restore()
 
     _previewContext.beginPath();
@@ -520,6 +539,12 @@ function getVideoPreviewFrame() {
     }
     _previewContext.restore();
     //window.requestAnimationFrame(getVideoPreviewFrame)
+    
+    if(_previewCanvas2) {
+        _previewContext2 = _previewCanvas2.getContext('2d');
+        _previewContext2.drawImage(_previewCanvas, 0,0);
+    }
+    
     window.setTimeout(getVideoPreviewFrame, 32);
 }
 
