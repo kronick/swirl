@@ -203,15 +203,15 @@ states = {
             
             fadezoomspinIn("#captureView", 1000);
             startVideoPreview("captureCanvas");
-            //startVideoPreview("captureCanvas2");
-            $("#captureCanvas2").css("opacity", 0.25);
-            
+    
             // Choose a random split screen view
+/*
             $("#captureMask").removeClass("top bottom left right");
             //var classes = ["top", "left", "bottom", "right"];
             var classes = ["left","right","left","right"];
             var r = Math.floor(Math.random() * 4);
             $("#captureMask").addClass(classes[r]);
+*/
 
             
             //$("#captureCanvas").css("opacity", 0.8);
@@ -474,20 +474,16 @@ function fadezoomspinOut(el, duration) {
 
 var _videoPreviewRunning = false;
 var _videoPreviewDrawBox = true;
-var _previewContext, _previewCanvas, _previewVideoScale, _previewVideo, _previewVideo_w, _previewVideo_h;
+var _videoPreviewStrobe = false;
+var _previewContext, _previewCanvas, _previewVideoScale, _previewVideo, _previewVideo_w, _previewVideo_h, _previewFrame;
 function startVideoPreview(canvasID, drawBox) {
     _videoPreviewDrawBox = drawBox;
     _previewVideo = document.getElementById('videoPreview');
     _previewCanvas = document.getElementById(canvasID);
-    _previewCanvas2 = document.getElementById($(_previewCanvas).attr("id") + "2");
-    _previewContext = _previewCanvas.getContext('2d');
+    _previewContext = _previewCanvas.getContext("2d");
 
     _previewCanvas.width = 400;
     _previewCanvas.height = 400;
-    if(_previewCanvas2) {
-        _previewCanvas2.width = 400;
-        _previewCanvas2.height = 400;        
-    }
 
     _previewVideo_w = $("#videoPreview").width();
     _previewVideo_h = $("#videoPreview").height();
@@ -498,6 +494,8 @@ function startVideoPreview(canvasID, drawBox) {
     $("#videoPreview").hide()
     $(_previewCanvas).show().css("opacity", 0).transition({opacity: 1})
 
+    _previewFrame = 0;
+    
     //window.requestAnimationFrame(getVideoPreviewFrame)
     window.setTimeout(getVideoPreviewFrame, 16);
 }
@@ -540,11 +538,12 @@ function getVideoPreviewFrame() {
     _previewContext.restore();
     //window.requestAnimationFrame(getVideoPreviewFrame)
     
-    if(_previewCanvas2) {
-        _previewContext2 = _previewCanvas2.getContext('2d');
-        _previewContext2.drawImage(_previewCanvas, 0,0);
+    if(_previewFrame++ % 5 == 0) {
+        $(_previewCanvas).css("opacity", 0);
     }
-    
+    else {
+        $(_previewCanvas).css("opacity", 1);
+    }
     window.setTimeout(getVideoPreviewFrame, 32);
 }
 

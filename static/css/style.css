@@ -78,15 +78,18 @@ body,html {
     opacity: 0.5;
 }
 
-#captureMask, #captureMask.left {
+#captureMask {
     z-index: 3;
     position: absolute;
     top: 0;
     left: 100px;
-    width: 300px;
+    width: 600px;
     height: 600px;
     zoom: 1;
     overflow: hidden;
+}
+#captureMask.left {
+    width: 300px;
 }
 
 #captureMask.right {
