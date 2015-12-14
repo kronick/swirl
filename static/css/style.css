@@ -1,0 +1,317 @@
+
+body,html {
+    font-family: 'Letter Gothic Std', sans-serif;
+    font-size: 20pt;
+    font-weight: bolder;
+    font-style: italic;
+    background-color: yellow;
+    background: black;
+    color: white;
+
+    width: 100%;
+    height: 100%;
+    margin: 0;
+
+    overflow: hidden;
+    
+    
+    background: #0048ff;
+    background: -moz-linear-gradient(top,  #0048ff 0%, #ffc300 71%, #ff4a9e 92%, #9600ff 100%);
+    background: -webkit-linear-gradient(top,  #0048ff 0%,#ffc300 71%,#ff4a9e 92%,#9600ff 100%);
+    background: linear-gradient(to bottom,  #0048ff 0%,#ffc300 71%,#ff4a9e 92%,#9600ff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0048ff', endColorstr='#9600ff',GradientType=0 );
+}
+
+.view {
+    display: none;
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    top: 10%;
+    left: 50%;
+    margin-left: -400px;
+    text-align: center;
+    zoom: 1.2;
+}
+.squareglow {
+    background-color: #ffff00;
+    position: absolute;
+    width: 640px;
+    height: 640px;
+    left: 80px;
+    top: -20px;
+    -webkit-filter: blur(20px);
+    z-index: 0;
+}
+.videoPreview {
+    z-index: 1;
+    position: relative;
+    zoom: 1.5;
+}
+
+#inspirationFace {
+    background-color: blue;
+    width: 600px;
+    height: 600px;
+    z-index: 1;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+#captureCanvas {
+    transform: scale(0.25, 0.25);
+    transform-origin: 95% 95%;
+    z-index: 3;
+    position: absolute;
+    top: 0;
+    left: 100px;
+    border-radius: 300px;
+}
+
+.bigface {
+    width: 600px;
+    height: 600px;
+    z-index: 1;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#reviewFaces {
+    position: absolute;
+    z-index: 100;
+    zoom: 1.2;
+    left: 110px;
+    top: 110px;
+    display: none;
+}
+
+.facepreview {
+    display: none;
+
+    width: 100%;
+    height: 100%;
+}
+
+.button {
+    padding: 20px;
+    padding-bottom: 14px;
+    background-color: #242424;
+    color: white;
+    display: inline-block;
+    font-size: 24pt;
+    vertical-align: middle;
+}
+.button.dull {
+    background-color: #aaa;
+    border: 1px solid #aaa;
+}
+
+.button:hover {
+    cursor: pointer;
+    color: blue;
+    background: white;
+}
+
+AUDIO {
+    display: none;
+}
+
+#phoneNumber {
+    font-size: 1.5em;
+    width: 93%;
+    margin-bottom: 0.5em;
+    height: 1.8em;
+    vertical-align: middle;
+    background-color: blue;
+    color: white;
+    font-style: italic;
+    font-weight: bold;
+    border: none;
+    text-align: center;
+}
+
+.emoji {
+    font-style: normal;
+    font-weight: normal;
+}
+
+#menu {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    font-size: 48pt;
+    height: 2em;
+    z-index: 6;
+}
+#menu .icon {
+    height: 1em;
+    width: 1em;
+    background-color: none;
+    cursor: pointer;
+    padding: 0.5em;
+}
+
+#menu .icon:hover {
+    background-color: #242424;
+    
+}
+
+#settings {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -200px;
+    margin-top: -200px;
+    background-color: #242424;
+    padding: 1em;
+    
+    display: none;    
+    z-index: 10;
+}
+
+#settings input {
+    font-size: 1em;
+}
+#settings input[type="number"] {
+    width: 2em;
+}
+#settings input[type="submit"] {
+    background-color: yellow;
+    color: #242424;
+    border: none;
+    
+}
+
+#photoStrip {
+    width: 100%;
+    position: fixed;
+    height: 100px;
+    bottom: 100px;
+}
+
+#photoStrip IMG {
+    width: 90px;
+    height: 90px;
+    margin: 9px;
+    background-color: #242424;
+}
+
+
+#waitingContainer {
+    width: 600px;
+    height: 600px;
+    top: 50%;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -400px;
+    position: fixed;
+    display: none;
+}
+#waitingContainer IMG {
+    width: 100%;
+    height: 100%;
+/*     -webkit-filter: blur(15px); */
+}
+
+.status {
+    text-align: center;
+    background-color: #242424;
+    padding: 1em;
+    display: none;
+}
+
+.instructions {
+    text-align: center;
+    background-color: blue;
+    padding: 0.25em;
+    font-size: 75%;
+    display: inline-block;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+}
+
+#grayout {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 5;
+    display: none;
+}
+
+IMG.emoji {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+}
+
+#flash {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+}
+
+
+#debug {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: none;
+}
+#state {
+    white-space: nowrap;
+    float: right;
+    height: 1em;
+}
+
+#keypad {
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    width: 50%;
+    height: 33%;
+    font-size: 1.5em;
+    z-index: 10000;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    background: #242424;
+    align-items: stretch;
+    border-radius: 20px;
+    display: none;
+}
+
+#keypad .number {
+    width: 33%;
+    padding-top: .7em;
+    background-color: none;
+}
+
+#delivery {
+    display: none;
+    width: 45%;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    height: 33%;
+    z-index: 100;
+}
+
+.status .button {
+    background-color: white;
+    color: #242424;
+}
+
+AUDIO {
+    display: none;
+}

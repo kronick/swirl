@@ -1,0 +1,175 @@
+<!doctype html>
+<head>
+    <meta content='user-scalable=0' name='viewport' />
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/pep/0.3.0/pep.js"></script>
+    <script src="{{ url_for("static", filename="js/jquery.transit.min.js") }}" type="text/javascript"></script>
+    <script src="{{ url_for("static", filename="js/capture.js") }}" type="text/javascript"></script>
+    <script src="{{ url_for("static", filename="js/js.cookie.js") }}" type="text/javascript"></script>
+    <script src="{{ url_for("static", filename="js/velocity.min.js") }}" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="{{ url_for("static", filename="css/style.css") }}" type="text/css">
+    
+    <script src="https://use.typekit.net/umw5gxq.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+</head>
+
+<body>
+
+<video style="display: none;" id="videoPreview" autoplay></video>
+
+<audio src="{{ url_for("static", filename="click.wav") }}" preload="auto" id="clickSound"></audio>
+<audio src="static/sound/bell-1.wav" preload="auto" id="bell1Sound"></audio>
+<audio src="static/sound/bell-2.wav" preload="auto" id="bell2Sound"></audio>
+<audio src="static/sound/bell-3.wav" preload="auto" id="bell3Sound"></audio>
+<audio src="static/sound/enter.wav" preload="auto" id="enterSound"></audio>
+<audio src="static/sound/snap.wav" preload="auto" id="snapSound"></audio>
+<audio src="static/sound/ping.wav" preload="auto" id="pingSound"></audio>
+
+<div id="waitingContainer">
+    <img src="static/img/swirl-blurred.png">
+    <div id="waitForOthersText" class="status">
+        Waiting for other players to be ready...
+        <br>
+        <div id="skipWaiting" class="button">Let's go already!</div>
+    </div>
+</div>
+
+<div class="view" id="alignFaceView">
+        <canvas id="alignCanvas" class="videoPreview"></canvas>
+        <div class="squareglow"></div>
+
+        <br>
+        <div class="instructions">tilt the tablet to put your face in the box ☝️</div>
+        <br>
+        <div class="button" id="startCapture">READY <img src="{{ url_for('static', filename='img/emoji-swirl.png') }}" class="emoji"></div>
+</div>
+
+<div class="view" id="captureView">
+        <img id="inspirationFace" />
+        <canvas id="captureCanvas"  class="videoPreview"></canvas>
+        <div class="squareglow"></div>
+<!--
+        <div id="countdown3">3</div>
+        <div id="countdown2">2</div>
+        <div id="countdown1">2</div>
+-->
+</div>
+
+<div id="reviewFaces">
+</div>
+
+<div id="keypad">
+    <div class="number">1</div>
+    <div class="number">2</div>
+    <div class="number">3</div>
+    <div class="number">4</div>
+    <div class="number">5</div>
+    <div class="number">6</div>
+    <div class="number">7</div>
+    <div class="number">8</div>
+    <div class="number">9</div>
+    <div class="number">del</div>
+    <div class="number">0</div>
+    <div class="number">enter</div>
+</div>
+<div id="delivery">
+    <div id="deliveryForm">
+            <input type="number" name="phoneNumber" id="phoneNumber">
+            <br>
+            <div class="button" id="sendText">TXT ME <img src="{{ url_for('static', filename='img/emoji-swirl.png') }}" class="emoji"><span class="emoji">📬</span></div>
+            <div class="button restart dull">NO THX</div>
+        </div>
+        <br>
+        <div id="enterNumber" class="status">
+            Type in your number and we'll send you the gif!
+        </div>
+        <div id="textSuccessful" class="status">
+            Your message has been sent!<br><div class="button restart"><img src="{{ url_for('static', filename='img/emoji-swirl.png') }}" class="emoji"> RESTART</div>
+        </div>
+        <div id="badNumber" class="status">Please enter a valid phone number</div>
+        <div id="textError" class="status">There was an error sending your text. Please try again!</div>
+</div>
+
+<div class="view" id="reviewView">
+        <img id="reviewFacePlaceholder" class="bigface" style="display: inline">
+        <div class="squareglow"></div>
+</div>
+
+<div id="photoStrip">
+    <img><img><img><img><img><img><img><img><img>
+</div>
+
+<div class="view" id="gifReviewView">
+    <div class="framed">
+        <div id="animationPreview">
+            <img class="facepreview" id="face1">
+            <img class="facepreview" id="face2">
+            <img class="facepreview" id="face3">
+            <img class="facepreview" id="face4">
+            <img class="facepreview" id="face5">
+        </div>
+
+        <img id="final_gif">
+    </div>
+
+    <input type="hidden" id="final_gif_id" value="">
+
+    <br>
+
+    <div class="eventMessage" id="uploadingIndicator"><img class="icon" src="{{ url_for("static", filename="ajax-loader.gif") }}"> Processing...</div>
+    <div class="eventMessage error" id="invalidNumber">Please enter a valid phone number 👿</div>
+    <div class="eventMessage" id="deliveryForm">
+        <input type="number" name="phoneNumber" id="phoneNumber"> <div class="button" id="sendText">TEXT ME</div> <div class="button restart dull">NO THANKS</div>
+    </div>
+    <div class="eventMessage" id="sendingSMSIndicator"><img class="icon" src="{{ url_for("static", filename="ajax-loader.gif") }}"> Sending message...</div>
+    <div class="eventMessage error" id="SMSSuccess">Your message is on its way! Thanks for using Emoji Match. 👌
+    </div>
+
+    <div class="eventMessage" id="restartMessage">
+        <div class="button restart" id="restartButton">START AGAIN</div>
+    </div>
+</div>
+
+<div id="captureProgress">
+</div>
+
+<div class="view" id="postShare">
+</div>
+
+<div id="preload">
+</div>
+
+
+<div id="flash">
+</div>
+
+<div id="grayout"></div>
+    
+<div id="menu">
+    <img src="{{ url_for("static", filename="img/emoji-dish.png") }}" class="icon" id="settingsIcon">
+</div>
+
+<div id="settings">
+    <form action="settings" method="POST">
+        <h2>CONFIG</h2>
+        Event name: <input type="text" name="event" value="{{ cookies['event'] }}">
+        <br>
+        Cluster #: <input type="number"  name="cluster" value="{{ cookies['cluster'] }}">
+        <br>
+        Screen #: <input type="number" name="screen" value="{{ cookies['screen'] }}">
+        <br><br>
+        <input type="hidden" name="next" value="capture">
+        <input type="submit" value="SAVE">
+    </form>
+</div>
+
+<div id="debug">
+    <div id="state">launch</div>
+</div>
+
+<!-- <img id="bug" src="{{ url_for("static", filename="logo-bug.png") }}"> -->
+
+</body>
+        
