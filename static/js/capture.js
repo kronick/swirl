@@ -26,30 +26,36 @@ states = {
             });        
         
             // Assign functions to buttons
-            $("#settingsIcon").on("pointerup", function() {
+            $("#settingsIcon").attr("touch-action", "none");
+            $("#settingsIcon").on("pointerdown", function() {
                 change_state("config");
                 // toggleSettings();
             });
             
-            $("#startCapture").on("pointerup", function() {
+            $("#startCapture").attr("touch-action", "none");
+            $("#startCapture").on("pointerdown", function() {
                 change_state("waitforall");
             });
-            $("#skipWaiting").on("pointerup", function() {
+            $("#skipWaiting").attr("touch-action", "none");
+            $("#skipWaiting").on("pointerdown", function() {
                 _forceReady = true;
             });
             
-            $("#sendText").on("pointerup", function() {
+            $("#sendText").attr("touch-action", "none");
+            $("#sendText").on("pointerdown", function() {
                 requestText(); 
             });
             
-            $(".restart").on("pointerup", function() {
+            $(".restart").attr("touch-action", "none");
+            $(".restart").on("pointerdown", function() {
                 change_state("attractor");
             });
             
-            $(".number").on("pointerup", type_number);
-        
+            $(".number").on("pointerdown", type_number);
+            $(".number").attr("touch-action", "none");
             // Make sure scrolling is disabled everywhere
             $('body').bind('touchmove', function(e){e.preventDefault()})            
+                  
             
             rotateSpiral();
         },
