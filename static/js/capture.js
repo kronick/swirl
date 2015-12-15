@@ -219,6 +219,31 @@ states = {
             var r = Math.floor(Math.random() * 4);
             $("#captureMask").addClass(classes[r]);
 
+            // Do a countdown
+            $(".countdown").hide();
+            $("#countdownContainer").show();
+            var transition_time = 300;
+            var countdown_time = 5500;
+            var countdown_delay = 1000;
+            window.setTimeout(function () {
+                $("#countdown3").show().css({"scale": 0.1, "opacity": 0}).transition({"scale": 1, "opacity": 1}, transition_time);
+            }, countdown_delay - transition_time);
+            window.setTimeout(function () {
+                $("#countdown3").transition({"scale": 0.1, "opacity": 0}, transition_time, function() { 
+                    $("#countdown3").hide();
+                    $("#countdown2").show().css({"scale": 0.1, "opacity": 0}).transition({"scale": 1, "opacity": 1}, transition_time);
+                });
+            }, (1 * (countdown_time - countdown_delay) / 3 + countdown_delay) - transition_time);
+            window.setTimeout(function () {
+                $("#countdown2").transition({"scale": 0.1, "opacity": 0}, transition_time, function() { 
+                    $("#countdown2").hide();
+                    $("#countdown1").show().css({"scale": 0.1, "opacity": 0}).transition({"scale": 1, "opacity": 1}, transition_time);
+                });
+            }, (2 * (countdown_time - countdown_delay) / 3 + countdown_delay) - transition_time);
+            window.setTimeout(function () {
+                $("#countdown1").transition({"scale": 0.1, "opacity": 0}, transition_time);
+            }, (3 * (countdown_time - countdown_delay) / 3 + countdown_delay) - transition_time);
+            
             
             //$("#captureCanvas").css("opacity", 0.8);
             window.setTimeout(function() {
@@ -240,11 +265,12 @@ states = {
                     }
                 });
 
-            }, 5500);
+            }, countdown_time);
         },
         exit: function(next, complete) {
             fadezoomspinOut("#captureView", 1000);
             stopVideoPreview("captureCanvas");
+            $("#countdownContainer").hide();
             window.setTimeout(complete, 1000);
         }
     },
@@ -480,7 +506,7 @@ function fadezoomspinOut(el, duration) {
 
 var _videoPreviewRunning = false;
 var _videoPreviewDrawBox = true;
-var _previewContext, _previewCanvas, _previewVideoScale, _previewVideo, _previewVideo_w, _previewVideo_h;
+var _previewContext, _previewCanvas, _previewVideoScale, _previewVideo, _previewVideo_w, _previewVideo_h, _previewCanvas2, _previewContext2;
 function startVideoPreview(canvasID, drawBox) {
     _videoPreviewDrawBox = drawBox;
     _previewVideo = document.getElementById('videoPreview');
@@ -493,6 +519,7 @@ function startVideoPreview(canvasID, drawBox) {
     if(_previewCanvas2) {
         _previewCanvas2.width = 400;
         _previewCanvas2.height = 400;        
+        _previewContext2 = _previewCanvas2.getContext('2d');
     }
 
     _previewVideo_w = $("#videoPreview").width();
@@ -500,12 +527,12 @@ function startVideoPreview(canvasID, drawBox) {
 
     _previewVideoScale = (_previewVideo_w > _previewVideo_h) ? (1.0 * _previewCanvas.height / _previewVideo_h) : (1.0 * _previewCanvas.width / _previewVideo_w)
 
-    _videoPreviewRunning = true
+    _videoPreviewRunning = true;
     $("#videoPreview").hide()
     $(_previewCanvas).show().css("opacity", 0).transition({opacity: 1})
 
-    //window.requestAnimationFrame(getVideoPreviewFrame)
-    window.setTimeout(getVideoPreviewFrame, 16);
+    window.requestAnimationFrame(getVideoPreviewFrame)
+    //window.setTimeout(getVideoPreviewFrame, 16);
 }
 
 function stopVideoPreview(canvasID) {
@@ -547,11 +574,11 @@ function getVideoPreviewFrame() {
     //window.requestAnimationFrame(getVideoPreviewFrame)
     
     if(_previewCanvas2) {
-        _previewContext2 = _previewCanvas2.getContext('2d');
         _previewContext2.drawImage(_previewCanvas, 0,0);
     }
     
-    window.setTimeout(getVideoPreviewFrame, 32);
+    window.requestAnimationFrame(getVideoPreviewFrame)
+    //window.setTimeout(getVideoPreviewFrame, 32);
 }
 
 
